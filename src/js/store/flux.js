@@ -12,7 +12,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 			getCharacters: () => {
 				fetch(getStore().baseUrl + 'people')
 					.then(res => res.json())
-					.then(data => setStore({characters:data.results}))
+					.then(data => {
+						console.log(data),
+						setStore({characters:data.results})})
 					.catch(error => console.log(error))
 				},
 				addFavorite: (favorite) => {
@@ -21,6 +23,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 					setStore({favorites: newFavorites})
 				},
 				deleteFavorite: (favorite) => {
+					let deleteFave = getStore().favorites;
+					let delet = deleteFave.filter((item)=>item !== favorite)
+					setStore({favorites: delet})
 				},
 				getSingleCharacter: (characterUrl) => {
 					fetch(characterUrl)
